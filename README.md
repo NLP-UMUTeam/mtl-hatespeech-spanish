@@ -2,6 +2,13 @@
 ## Multi-task Learning for Hate Speech Detection: Identifying Speech Type, Target, Targeted-group, and Intensity in Spanish
 https://www.sciencedirect.com/science/article/pii/S0920548925000194
 
+### TL-DR: Highlights
+- Creation of a Spanish corpus for fine-grained hate speech recognition.
+- Four subtasks: hate speech type, target, target group and intensity.
+- Evaluation of three LLMs using Zero-Shot Learning as a lower bound baseline and by fine tuning with different LLMs as strong baseline.
+- Evaluation of mBART using a multitask learning approach to solve all tasks at once.
+- MTL learning with mBART showed competitive results, but its performance is slightly below the fine-tuning approach.
+
 ### Authors
 - **Ronghao Pan** — University of Murcia  
   [Google Scholar](https://scholar.google.com/citations?user=80lntLMAAAAJ&hl=en) · [ORCID](https://orcid.org/0009-0008-7317-7145)
@@ -14,6 +21,11 @@ https://www.sciencedirect.com/science/article/pii/S0920548925000194
 
 > Affiliation:  
 > *Department of Computer Science and Systems, Universidad de Murcia, Spain.*
+
+### Publication
+This article was published in *Computer Standards & Interfaces*, Volume 94, August 2025, Article 103990.  
+**DOI:** https://doi.org/10.1016/j.csi.2025.103990  
+**Publisher page:** https://www.sciencedirect.com/science/article/pii/S0920548925000194
 
 ### Abstract
 The rise of digital communication has exacerbated the challenge of detecting abusive language, particularly hate speech, across online platforms. This work presents **Spanish MTLHateCorpus 2023**, a newly curated multi-task dataset designed to address four key subtasks:
@@ -96,7 +108,23 @@ Intensity is annotated on a 6-level ordinal scale:
 | none                              | 9381  | 2011 | 2006 | 13398 |
 | total                             | 24829 | 5321 | 5323 | 35473 |
 
-## Acknowledgments
+### System architecture
+![System architecture](mtl-pipeline.png)
+
+### Evaluation
+Next, this table summarizes the best macro-F1 score obtained for each subtask, comparing the best single-task fine-tuning model against the best multi-task learning (MTL) model. Results are taken from Tables 6, 8, 10, and 12 of the paper.
+
+| Task                                 | Best fine-tuning model | Best fine-tuning F1 | Best MTL model | Best MTL F1 |
+|--------------------------------------|------------------------|--------------------:|----------------|------------:|
+| Type of speech                       | ENSEMBLE               | **63.350**          | mBART          | 59.331      |
+| Target (individual vs. group)        | ENSEMBLE               | **71.091**          | mBART          | 67.040      |
+| Targeted group                       | MarIA                  | **63.966**          | mBART          | 62.908      |
+| Hate speech intensity                | BETO                   | **48.648**          | T5             | 45.555      |
+
+Although single-task fine-tuning achieves the highest macro-F1 scores in all subtasks, the multi-task learning (MTL) models obtain competitive performance while jointly addressing the four dimensions of hate speech: speech type, target, target group, and intensity. The performance drop between the best fine-tuned and MTL models remains relatively small across tasks, suggesting that shared representations can generalize well without severely sacrificing accuracy. Importantly, a single multi-task model is able to solve all subtasks simultaneously, offering a more compact, efficient, and scalable alternative for real-world deployment.
+
+
+### Acknowledgments
 This research is part of the project LT-SWM (TED2021-131150B-I00), funded by the Spanish Ministry of Science and Innovation, the State Research Agency (MCIN/AEI/10.13039/501100011033), and the European Union through the NextGenerationEU Recovery Plan. Additional support was provided by the “Programa de incentivos para la realización de proyectos de investigación para jóvenes doctores en temas de inteligencia artificial aplicada al sector agrario, medioambiental o energético y la lucha contra la despoblación y el reto demográfico” (CARTAGO-APP), and the research project “Automatic Political Awareness for Political Microtargeting” (22252/PDC/23) funded by the Autonomous Community of the Region of Murcia.
 
 ## Citation
